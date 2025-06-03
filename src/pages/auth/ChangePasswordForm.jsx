@@ -38,7 +38,7 @@ const ChangePasswordForm = ({ email, switchView }) => {
         />
         <div className="text-sm mt-2 mb-4 flex justify-end items-center gap-2">
           <button
-            className="flex items-center text-blue-500 gap-x-2"
+            className="flex items-center text-blue-500 gap-x-2 cursor-pointer"
             onClick={() => dispatch(resendResetOtp(email))}
           >
             <RxCountdownTimer />

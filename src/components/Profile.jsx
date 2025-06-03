@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getFollowers, getFollowing } from "../services/operations/followAPI"; // adjust path as needed
 
-const Profile = () => {
+const Profile = ({setActiveSection}) => {
   const profile = useSelector((state) => state.profile.profileData);
   const generatedProfilePicture = useSelector((state) => state.profile.generatedProfilePicture);
   const [followersCount, setFollowersCount] = useState(0);
@@ -36,6 +36,12 @@ const Profile = () => {
     return <div className="text-white text-center mt-10">Loading...</div>;
   }
 
+  const handleEditProfile = () => {
+    setActiveSection("editProfile"); // or setActiveForm(true) depending on your setup
+  };
+
+  
+
   const {
     username,
     firstName,
@@ -44,8 +50,8 @@ const Profile = () => {
     images,
     bio
   } = profile.data;
-  console.log("Profile Data:", profile.data);
-  console.log("received images:", images);
+  // console.log("Profile Data:", profile.data);
+  // console.log("received images:", images);
 
   return (
     <div className="min-h-screen  text-black p-6">
@@ -61,16 +67,16 @@ const Profile = () => {
             <div className="flex gap-12 mt-2">
               <h2 className="mt-2 text-xl font-semibold">{username}</h2>
               <div className="flex gap-2">
-                <button className="bg-neutral-800 text-white px-3 py-1 rounded-md">
+                <button onClick={handleEditProfile} className="bg-neutral-800 text-white px-3 py-1 rounded-md cursor-pointer">
                   Edit Profile
                 </button>
-                <button className="bg-neutral-800 p-2 rounded-md">&#9881;</button>
+                {/* <button className="bg-neutral-800 p-2 rounded-md cursor-pointer">&#9881;</button> */}
               </div>
             </div>
 
             <div className="flex gap-6 mt-4 text-sm">
               <span>
-                <strong>{images.length}</strong> posts
+                <strong>{Array.isArray(images) &&images.length}</strong> posts
               </span>
               <span>
                 <strong>{followersCount}</strong> followers
@@ -85,7 +91,7 @@ const Profile = () => {
                 {firstName} {lastName}
               </p>
               <p className="text-sm text-gray-500">
-                {profile.data.bio || "No bio available"}
+                {bio || "No bio available"}
               </p>
             </div>
 
@@ -101,7 +107,7 @@ const Profile = () => {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-6">
-          {images.length > 0 ? (
+          {Array.isArray(images) && images.length > 0 ? (
             images.map((image) => (
               <div key={image.id} className="w-full aspect-square">
                 <img

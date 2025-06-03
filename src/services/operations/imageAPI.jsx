@@ -38,7 +38,7 @@ export function uploadImage(tag , image , userId) {
 
 export function homeImageRecommend(userId) {
   return async (dispatch) => {
-    // const toastId = toast.loading("Loading...")
+    const toastId = toast.loading("Loading...")
     // const formData = new FormData();
     // formData.append("userId", userId);
     try {
@@ -51,21 +51,22 @@ export function homeImageRecommend(userId) {
           userId: userId,
         })
       
-    console.log("Home Image Recommend............", response)
+    // console.log("Home Image Recommend............", response)
+    toast.dismiss(toastId)
     return response; 
     // toast.success("Image Uploaded Successfully")
 
     } catch (error) {
         console.log("IMAGE_UPLOAD_API ERROR............", error)
         toast.error("Could Not Upload Image")
+        toast.dismiss(toastId)
     }
-    // toast.dismiss(toastId)
   }
 }
 
 export function feedImageRecommend(userId) {
   return async (dispatch) => {
-    // const toastId = toast.loading("Loading...")
+    const toastId = toast.loading("Loading...")
     // const formData = new FormData();
     // formData.append("userId", userId);
     try {
@@ -77,15 +78,17 @@ export function feedImageRecommend(userId) {
       }, {
           userId: userId,
         })
+
+      toast.dismiss(toastId)
       
-    console.log("Home Image Recommend............", response)
+    // console.log("Home Image Recommend............", response)
     return response; 
     // toast.success("Image Uploaded Successfully")
 
     } catch (error) {
         console.log("IMAGE_UPLOAD_API ERROR............", error)
         toast.error("Could Not Upload Image")
+        toast.dismiss(toastId)
     }
-    // toast.dismiss(toastId)
   }
 }

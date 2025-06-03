@@ -56,7 +56,7 @@ const OtpForm = ({ switchView }) => {
 
       <div className="text-sm mt-2 flex items-center justify-end">
         <button
-          className="flex items-center text-blue-500 gap-x-2"
+          className="flex items-center text-blue-500 gap-x-2 cursor-hover"
           onClick={() => dispatch(resendSignupOtp(signupData.email))}
         >
           <RxCountdownTimer />

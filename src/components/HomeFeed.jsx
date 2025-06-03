@@ -19,7 +19,7 @@ const HomeFeed = () => {
         const homeImagesData = await dispatch(homeImageRecommend(profile.data.id));
         if (homeImagesData?.data && Array.isArray(homeImagesData.data)) {
           setPosts(homeImagesData.data);
-          console.log("Home Image Recommend............", homeImagesData.data);
+          // console.log("Home Image Recommend............", homeImagesData.data);
         } else {
           setPosts([]);
         }
@@ -49,7 +49,7 @@ const HomeFeed = () => {
           <ImagePost
             key={post.id}
             username={post.username}
-            userImage={post.profileImageUrl}
+            userImage={post.profilePictureUrl}
             postImage={post.imageUrl}
             followedUsers={followedUsers}
             likeCount={post.likeCount}

@@ -48,7 +48,7 @@ const FollowingFeed = () => {
           <ImagePost
             key={post.id}
             username={post.username}
-            userImage={post.imageUrl}
+            userImage={post.profilePictureUrl}
             postImage={post.imageUrl}
             followedUsers={followedUsers}
             likeCount={post.likeCount}

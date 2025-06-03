@@ -18,7 +18,7 @@ export function getAllUsers() {
         Authorization: `Bearer ${token}`,
       });
 
-      console.log("GET_ALL_USERS_API RESPONSE............", response);
+      // console.log("GET_ALL_USERS_API RESPONSE............", response);
       return response.data;
     } catch (error) {
       console.log("GET_ALL_USERS_API ERROR............", error);
@@ -46,7 +46,7 @@ export function searchByUsername(username) {
         { username }
       );
 
-      console.log("Searched users are............", response);
+      // console.log("Searched users are............", response);
       return response.data;
     } catch (error) {
       console.log("SEARCH_USER_BY_USERNAME_API ERROR............", error);

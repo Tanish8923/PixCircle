@@ -41,7 +41,7 @@ export function unfollowUser(followerUsername, followingUsername) {
         Authorization: `Bearer ${token}`,
       });
 
-      console.log("UNFOLLOW RESPONSE", response);
+      // console.log("UNFOLLOW RESPONSE", response);
       toast.success(`Successfully unfollowed ${followingUsername}`);
     } catch (error) {
       console.error("UNFOLLOW ERROR", error);
@@ -62,7 +62,7 @@ export async function getFollowers(userName) {
       Authorization: `Bearer ${token}`,
     });
 
-    console.log("GET FOLLOWERS RESPONSE", response);
+    // console.log("GET FOLLOWERS RESPONSE", response);
     return response.data;  
   } catch (error) {
     toast.error("Failed to fetch followers");
@@ -82,7 +82,7 @@ export async function getFollowing(userName) {
       Authorization: `Bearer ${token}`,
     });
 
-    console.log("GET FOLLOWING RESPONSE", response);
+    // console.log("GET FOLLOWING RESPONSE", response);
     return response.data; // assuming response.data contains following array
   } catch (error) {
     toast.error("Failed to fetch following users");

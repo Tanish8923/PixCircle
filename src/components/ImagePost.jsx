@@ -11,11 +11,11 @@ const ImagePost = ({ userImage, username, postImage, followedUsers, likeCount: i
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const profile = useSelector((state) => state.profile.profileData);
-  console.log("Profile data in ImagePost component:", likedByUsernames);
+  // console.log("Profile data in ImagePost component:", likedByUsernames);
 
   const userId = profile?.data?.id; 
   const authUsername = profile?.data?.username; // Get the current user's username
-  console.log("Current user's username:", authUsername);
+  // console.log("Current user's username:", authUsername);
 
   useEffect(() => {
   if (authUsername && Array.isArray(likedByUsernames)) {
@@ -82,11 +82,11 @@ const ImagePost = ({ userImage, username, postImage, followedUsers, likeCount: i
         <button
           onClick={toggleFollow}
           disabled={loading}
-          className={`ml-auto text-sm font-medium ${
+          className={`ml-auto text-sm font-medium cursor-pointer ${
             following ? 'text-gray-500' : 'text-blue-500'
           }`}
         >
-          {loading ? "..." : following ? 'Following' : 'Follow'}
+          {loading ? "......." : following ? 'Following' : 'Follow'}
         </button>
       </div>
 
@@ -103,7 +103,7 @@ const ImagePost = ({ userImage, username, postImage, followedUsers, likeCount: i
       </div>
 
       {/* Like Section */}
-      <div onClick={toggleLike} className="flex items-center gap-2 mt-3 text-xl text-red-500">
+      <div onClick={toggleLike} className="flex items-center gap-2 mt-3 text-xl text-red-500 cursor-pointer">
         {liked ? <FaHeart /> : <FaRegHeart />}
         <span className="text-black text-base">{likeCount} {likeCount === 1 ? "like" : "likes"}</span>
       </div>

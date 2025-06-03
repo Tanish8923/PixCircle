@@ -2,7 +2,7 @@
 import { toast } from "react-hot-toast"
 // import { setLoading, setToken } from "../../slices/authSlice"
 import { setToken } from "../../slices/authSlice"
-import { getProfileDetails , updateProfileDetails} from "./profileAPI"
+import { getProfileDetails , updateProfilePhoto} from "./profileAPI"
 // import { resetCart } from "../../slices/cartSlice"
 import { setGeneratedProfilePicture } from "../../slices/profileSlice"
 import { apiConnector } from "../apiConnector"
@@ -178,7 +178,7 @@ export function login(email, password, navigate) {
       formData.append("profile", JSON.stringify({username:response.data.username})); // as string
       formData.append("profilePicture", imageFile); // as file
 
-      dispatch(updateProfileDetails(navigate, formData)); 
+      dispatch(updateProfilePhoto(navigate, formData)); 
 
       dispatch(setGeneratedProfilePicture(profileImage));
       // localStorage.setItem("profileImage", profileImage);

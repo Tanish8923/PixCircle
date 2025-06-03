@@ -33,7 +33,7 @@ const Sidebar = ({ activeSection, setActiveSection }) => {
           <li key={item.name}>
             <button
               onClick={() => setActiveSection(item.name)}
-              className={`flex items-center gap-3 w-full text-left p-2 rounded capitalize
+              className={`flex items-center gap-3 w-full text-left p-2 rounded capitalize cursor-pointer
                 ${activeSection === item.name ? "bg-blue-500 text-white" : "text-black hover:bg-gray-100"}`}
             >
               {item.icon}
@@ -45,7 +45,7 @@ const Sidebar = ({ activeSection, setActiveSection }) => {
         <li>
           <button
             onClick={handleLogout}
-            className={`flex items-center gap-3 w-full text-left p-2 rounded capitalize 
+            className={`flex items-center gap-3 w-full text-left p-2 rounded capitalize cursor-pointer 
               ${activeSection === "logout" ? "bg-blue-500 text-white" : "text-black hover:bg-gray-100"}`}
           >
             <FaSignOutAlt />

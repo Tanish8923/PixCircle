@@ -2,24 +2,38 @@ import { useState } from 'react';
 import PostModal from './PostModal'; 
 import { useSelector } from "react-redux";
 
-const PostBox = () => {
+const PostBox = ({setActiveSection}) => {
   const [isOpen, setIsOpen] = useState(false);
-  // const profileImageFromStorage = localStorage.getItem("profileImage");
   const profilePictureUrl = useSelector((state) => state.profile.profileData?.data?.profilePictureUrl);
   const generatedProfilePicture = useSelector((state) => state.profile.generatedProfilePicture);
 
+  const handleProfileClick = () => {
+    console.log("Profile clicked");
+    setActiveSection("profile");
+  };
+
+  const handleShareClick = () => {
+    setIsOpen(true);
+  };
+
   return (
     <>
-      <div
-        className="flex items-center gap-3 bg-gray-100 px-4 py-2 rounded-full shadow-sm cursor-pointer mb-4 hover:bg-gray-200 transition"
-        onClick={() => setIsOpen(true)}
-      >
+      <div className="flex items-center gap-3 bg-gradient-to-r from-[#00AEEF] to-[#7B2FF7] px-4 py-2 rounded-full shadow-sm mb-10 ">
+        {/* Profile Image with its own click */}
         <img
           src={profilePictureUrl || generatedProfilePicture}
           alt="Profile"
-          className="w-10 h-10 rounded-full object-cover"
+          className="w-10 h-10 rounded-full object-cover cursor-pointer"
+          onClick={handleProfileClick}
         />
-        <div className="text-gray-600 mx-auto">Share photos</div>
+
+        {/* Share text with its own click */}
+        <div
+          className="text-gray-600 text-center w-full p-2 cursor-pointer bg-white rounded-full"
+          onClick={handleShareClick}
+        >
+          Share photos
+        </div>
       </div>
 
       {/* Modal */}

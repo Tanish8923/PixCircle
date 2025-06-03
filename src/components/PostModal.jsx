@@ -48,16 +48,16 @@ const PostModal = ({ onClose }) => {
 
 
   const handleShare = () => {
-  if (!imageFile || selectedPrefs.length === 0) {
-    toast.error("Please select an image and tag");
-    return;
-  }
-  console.log("Selected Preferences:", selectedPrefs);
-  console.log("Image File:", imageFile);
-  console.log("User ID:", userId);
-  dispatch(uploadImage(selectedPrefs, imageFile , userId));
-  onClose();
-};
+    if (!imageFile || selectedPrefs.length === 0) {
+      toast.error("Please select an image and tag");
+      return;
+    }
+    console.log("Selected Preferences:", selectedPrefs);
+    console.log("Image File:", imageFile);
+    console.log("User ID:", userId);
+    dispatch(uploadImage(selectedPrefs, imageFile , userId));
+    onClose();
+  };
 
 
   useEffect(() => {
@@ -86,21 +86,21 @@ const PostModal = ({ onClose }) => {
     <div className="fixed inset-0 z-50 backdrop-blur-sm bg-white/10 flex flex-col items-center justify-center">
       {/* Close button in top-right */}
       <button
-        className="absolute top-4 right-4 text-gray-800 text-2xl hover:text-red-400"
+        className="absolute top-4 right-4 text-gray-800 text-2xl hover:text-red-400 cursor-pointer"
         onClick={onClose}
       >
         <IoMdClose />
       </button>
 
       {/* Header (step-specific) */}
-      <div className="w-full max-w-80 flex items-center justify-between text-white text-lg font-semibold mb-2 px-4">
+      <div className={`${step === 3 ? 'w-full max-w-3xl' : 'w-full max-w-80'}  flex items-center justify-between  text-lg font-semibold mb-2 px-4`}>
         {step === 1 && (
           <div className="text-center w-full">Create New Post</div>
         )}
 
         {step === 2 && (
           <>
-            <button onClick={handleBack} className="text-2xl cursor-pointer">{'←'}</button>
+            <button onClick={handleBack} className="text-3xl cursor-pointer">{'←'}</button>
             <div></div> {/* Spacer for center alignment */}
             <button
               onClick={handleNext}
@@ -113,16 +113,16 @@ const PostModal = ({ onClose }) => {
 
         {step === 3 && (
           <div className="w-full flex items-center justify-between px-4">
-            <button onClick={handleBack} className="text-2xl cursor-pointer">{'←'}</button>
-            <div className="flex-1 text-center text-lg font-semibold">Create New Post</div>
-            <div className="w-6">{/* Spacer to balance the arrow size */}</div>
+            <button onClick={handleBack} className="text-3xl cursor-pointer">{'←'}</button>
+            <div className=" text-center text-lg font-semibold ">Create New Post</div>
+
           </div>
         )}
 
       </div>
 
       {/* Modal content box */}
-      <div className={`bg-white mx-auto rounded-lg shadow-lg overflow-hidden 
+      <div className={`bg-white  mx-auto rounded-lg shadow-lg border-2 overflow-hidden 
                       ${step === 3 ? 'w-full max-w-3xl h-96' : 'w-full max-w-80 h-96'}`}>
 
         {/* Step 1: Select Photo */}
