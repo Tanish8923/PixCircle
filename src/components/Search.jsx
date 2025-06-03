@@ -1,0 +1,61 @@
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { searchByUsername } from "../services/operations/searchAPI";
+
+const Search = () => {
+  const [query, setQuery] = useState("");
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const handleSearch = async (e) => {
+    if (e.key === "Enter" && query.trim()) {
+
+      e.preventDefault();
+      setLoading(true);
+      const response = await dispatch(searchByUsername(query.trim()));
+      setUsers(response|| []);
+      console.log("Searched users are............", response);
+      console.log("Searched users are............", users);
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="p-4 max-w-md mx-auto">
+      <input
+        type="text"
+        placeholder="Search users..."
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        onKeyDown={handleSearch}
+        className="w-full px-4 py-2 border rounded-md"
+      />
+      <p className="text-sm text-gray-500 mt-1 text-center">"Press Enter to search"</p>
+
+
+      {loading && users.length > 0 ? (
+<p className="mt-4 text-gray-600">No users found.</p>
+      ):       ( <ul className="mt-4 space-y-2">
+        {users.map((user, index) => (
+          <li key={index} className="p-4 border rounded-md shadow-sm flex gap-4 items-center">
+            <img
+              src={user.profilePictureUrl || "/default-avatar.png"}
+              alt="User"
+              className="w-12 h-12 rounded-full object-cover"
+            />
+            <div>
+              <p className="font-semibold">{user.username}</p>
+              <p className="text-sm text-gray-500">{user.firstName} {user.lastName}</p>
+              <p className="text-xs text-gray-400">{user.email}</p>
+            </div>
+          </li>
+        ))}
+      </ul>)}
+
+    </div>
+  );
+};
+
+export default Search;
