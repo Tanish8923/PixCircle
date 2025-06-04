@@ -2,7 +2,7 @@ import React, { useState , useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { followUser } from '../services/operations/followAPI';
 
-const RightSidebar = ({ users: initialUsers }) => {
+const RightSidebar = ({ users: initialUsers , setActiveSection , setSelectedUser }) => {
   // console.log("Initial users in RightSidebar:", initialUsers);
   const [showAll, setShowAll] = useState(false);
   const [loadingUserId, setLoadingUserId] = useState(null); // for per-user loading state
@@ -34,6 +34,11 @@ const RightSidebar = ({ users: initialUsers }) => {
     }
   };
 
+  const openProfile = (user) => {
+    setSelectedUser(user); 
+    setActiveSection("datailedUserProfile");
+  }
+
   return (
     <div className="hidden lg:block w-96 p-12 border-l-2 border-gray-500 text-black">
       <div className="flex justify-between mb-9">
@@ -43,7 +48,7 @@ const RightSidebar = ({ users: initialUsers }) => {
       <div className="flex flex-col gap-4">
         {visibleUsers?.map((user) => (
           <div key={user.id} className="flex justify-between items-center">
-            <div className="flex items-center gap-3">
+            <div onClick={() => openProfile(user)} className="flex items-center gap-3 cursor-pointer">
               <img
                 src={user.profilePictureUrl}
                 className="w-9 h-9 rounded-full"

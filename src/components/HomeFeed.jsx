@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import ImagePost from './ImagePost';
 import { homeImageRecommend } from '../services/operations/imageAPI'; // make sure this exists
@@ -38,7 +39,7 @@ const HomeFeed = () => {
     };
 
     fetchData();
-  }, [profile, dispatch]);
+  }, [profile]);
 
   return (
     <div>

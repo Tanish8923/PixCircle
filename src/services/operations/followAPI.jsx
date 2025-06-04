@@ -52,6 +52,7 @@ export function unfollowUser(followerUsername, followingUsername) {
 }
 
 export async function getFollowers(userName) {
+  const toastId = toast.loading("Loading...")
   try {
     const token = localStorage.getItem("token")?.replace(/^"|"$/g, "");
     if (!token) throw new Error("No token found");
@@ -69,9 +70,13 @@ export async function getFollowers(userName) {
     console.error(error);
     throw error;
   }
+  finally {
+    toast.dismiss(toastId);
+  }
 }
 
 export async function getFollowing(userName) {
+  const toastId = toast.loading("Loading...")
   try {
     const token = localStorage.getItem("token")?.replace(/^"|"$/g, "");
     if (!token) throw new Error("No token found");
@@ -88,5 +93,8 @@ export async function getFollowing(userName) {
     toast.error("Failed to fetch following users");
     console.error(error);
     throw error;
+  }
+  finally {
+    toast.dismiss(toastId);
   }
 }
