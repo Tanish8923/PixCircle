@@ -45,7 +45,7 @@ const Feed = () => {
     <div className="flex bg-gray-50">
       <Sidebar activeSection={activeSection} setActiveSection={setActiveSection} />
 
-      <div className="ml-64 flex w-full justify-between bg-gray-50 min-h-screen">
+      <div className="md:ml-64 flex w-full justify-between bg-gray-50 min-h-screen">
         <div className="flex-1 p-6 ">
           {/* <PostBox /> */}
           {["home", "following"].includes(activeSection) && <PostBox setActiveSection={setActiveSection}/>}

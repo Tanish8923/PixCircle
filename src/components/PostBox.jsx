@@ -18,7 +18,7 @@ const PostBox = ({setActiveSection}) => {
 
   return (
     <>
-      <div className="flex items-center gap-3 bg-gradient-to-r from-[#00AEEF] to-[#7B2FF7] px-4 py-2 rounded-full shadow-sm mb-10 ">
+      <div className="mt-16 md:mt-0 flex items-center gap-3 bg-gradient-to-r from-[#00AEEF] to-[#7B2FF7] px-4 py-2 rounded-full shadow-sm mb-10 ">
         {/* Profile Image with its own click */}
         <img
           src={profilePictureUrl || generatedProfilePicture}

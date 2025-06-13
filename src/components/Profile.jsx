@@ -54,23 +54,22 @@ const Profile = ({setActiveSection}) => {
   // console.log("received images:", images);
 
   return (
-    <div className="min-h-screen  text-black p-6">
+    <div className="min-h-screen mt-16 md:mt-0  text-black p-4 sm:p-6">
       <div className="flex flex-col items-center">
-        <div className="flex w-full items-center justify-evenly ">
+        <div className="flex flex-col md:flex-row gap-6 md:gap-0 w-full md:items-start items-center justify-evenly ">
           <img
             src={profilePictureUrl || generatedProfilePicture }
             alt="Profile"
-            className="w-40 h-40 rounded-full border-2 border-gray-500 object-cover"
+            className="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border-2 border-gray-500 object-cover"
           />
 
           <div className="flex flex-col gap-5 items-start">
             <div className="flex gap-12 mt-2">
-              <h2 className="mt-2 text-xl font-semibold">{username}</h2>
+              <h2 className="text-xl font-semibold">{username}</h2>
               <div className="flex gap-2">
                 <button onClick={handleEditProfile} className="bg-neutral-800 text-white px-3 py-1 rounded-md cursor-pointer">
                   Edit Profile
                 </button>
-                {/* <button className="bg-neutral-800 p-2 rounded-md cursor-pointer">&#9881;</button> */}
               </div>
             </div>
 
@@ -90,9 +89,10 @@ const Profile = ({setActiveSection}) => {
               <p className=" font-medium">
                 {firstName} {lastName}
               </p>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg break-words whitespace-pre-line">
                 {bio || "No bio available"}
               </p>
+
             </div>
 
           </div>
@@ -127,5 +127,3 @@ const Profile = ({setActiveSection}) => {
 };
 
 export default Profile;
-
-

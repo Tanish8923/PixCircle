@@ -92,8 +92,8 @@ const ImagePost = ({ userImage, username, postImage, followedUsers, likeCount: i
 
       {/* Image */}
       <div
-        className="w-full aspect-[5/5] overflow-hidden rounded relative cursor-pointer"
-        onClick={toggleLike}
+        className="w-full aspect-[5/5] overflow-hidden rounded relative"
+        // onClick={toggleLike}
       >
         <img
           src={postImage}

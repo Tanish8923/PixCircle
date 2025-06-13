@@ -62,10 +62,3 @@ const FollowingFeed = () => {
 };
 
 export default FollowingFeed;
-// import React from 'react';
-
-// const FollowingFeed = () => {
-//   return <div>Following Feed (coming soon...)</div>;
-// };
-
-// export default FollowingFeed;

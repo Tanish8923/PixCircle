@@ -28,6 +28,25 @@ const SignUpForm = ({ switchView }) => {
 
   const { firstName, lastName, userName, email, password, confirmPassword } = formData
 
+  // const passwordChecks = {
+  //   minLength: (pw) => pw.length >= 8,
+  //   upperCase: (pw) => /[A-Z]/.test(pw),
+  //   lowerCase: (pw) => /[a-z]/.test(pw),
+  //   digit: (pw) => /[0-9]/.test(pw),
+  //   specialChar: (pw) => /[!@#$%^&*]/.test(pw),
+  // };
+
+  // const isPasswordValid = (pw) => {
+  //   return (
+  //     passwordChecks.minLength(pw) &&
+  //     passwordChecks.upperCase(pw) &&
+  //     passwordChecks.lowerCase(pw) &&
+  //     passwordChecks.digit(pw) &&
+  //     passwordChecks.specialChar(pw)
+  //   );
+  // };
+
+
   // Handle input fields, when some value changes
   const handleOnChange = (e) => {
     setFormData((prevData) => ({
@@ -39,6 +58,18 @@ const SignUpForm = ({ switchView }) => {
   // Handle Form Submission
   const handleOnSubmit = (e) => {
     e.preventDefault()
+
+    const isValidPassword = (password) => {
+      const regex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
+      return regex.test(password);
+    };
+    
+    if (!isValidPassword(password)) {
+      toast.error("Password must be 8+ chars, include uppercase, lowercase, number & special character.");
+      return;
+    }
+
 
     if (password !== confirmPassword) {
       toast.error("Passwords Do Not Match")
@@ -137,6 +168,7 @@ const SignUpForm = ({ switchView }) => {
 
         <div className="flex gap-4">
           <div className="relative w-1/2">
+             
             <input
               required
               type={showPassword ? "text" : "password"}
@@ -181,6 +213,27 @@ const SignUpForm = ({ switchView }) => {
           </div>
           
         </div>
+
+        {/* {password.length > 0 && !isPasswordValid(password) && (
+          <div className="mt-2 text-xs text-gray-700 space-y-1">
+            <p className={`${passwordChecks.minLength(password) ? "text-green-600" : "text-red-600"}`}>
+              {passwordChecks.minLength(password) ? "✅" : "❌"} At least 8 characters
+            </p>
+            <p className={`${passwordChecks.upperCase(password) ? "text-green-600" : "text-red-600"}`}>
+              {passwordChecks.upperCase(password) ? "✅" : "❌"} 1 uppercase letter
+            </p>
+            <p className={`${passwordChecks.lowerCase(password) ? "text-green-600" : "text-red-600"}`}>
+              {passwordChecks.lowerCase(password) ? "✅" : "❌"} 1 lowercase letter
+            </p>
+            <p className={`${passwordChecks.digit(password) ? "text-green-600" : "text-red-600"}`}>
+              {passwordChecks.digit(password) ? "✅" : "❌"} 1 number
+            </p>
+            <p className={`${passwordChecks.specialChar(password) ? "text-green-600" : "text-red-600"}`}>
+              {passwordChecks.specialChar(password) ? "✅" : "❌"} 1 special character (!@#$%^&*)
+            </p>
+          </div>
+        )} */}
+        
         
 
         {/* Preferences */}

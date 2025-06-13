@@ -25,7 +25,7 @@ const Search = ({ setActiveSection, setSelectedUser }) => {
   };
 
   return (
-    <div className="p-4 max-w-md mx-auto">
+    <div className="p-4 mt-16 md:mt-0 max-w-md mx-auto">
       <input
         type="text"
         placeholder="Search users..."

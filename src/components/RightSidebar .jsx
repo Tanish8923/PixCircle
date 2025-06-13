@@ -40,7 +40,7 @@ const RightSidebar = ({ users: initialUsers , setActiveSection , setSelectedUser
   }
 
   return (
-    <div className="hidden lg:block w-96 p-12 border-l-2 border-gray-500 text-black">
+    <div className="hidden lg:block w-96 p-12 border-l border-gray-500 text-black">
       <div className="flex justify-between mb-9">
         <p className="text-sm text-gray-500">Suggested for you</p>
       </div>
