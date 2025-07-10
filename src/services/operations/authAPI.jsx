@@ -157,30 +157,32 @@ export function login(email, password, navigate) {
       dispatch(getProfileDetails(navigate));
 
       // 4. Generate avatar using first and last name
-      const generateAvatarURL = (firstName, lastName) => {
-        console.log("Generating avatar for:", firstName, lastName);
-        const fullName = `${firstName}+${lastName}`;
-        return `https://ui-avatars.com/api/?name=${fullName}&background=random`;
-      };
 
-      const profileImage = generateAvatarURL(response.data.firstName, response.data.lastName);
-      console.log("Generated Profile Image URL:", profileImage);
+      // const generateAvatarURL = (firstName, lastName) => {
+      //   console.log("Generating avatar for:", firstName, lastName);
+      //   const fullName = `${firstName}+${lastName}`;
+      //   return `https://ui-avatars.com/api/?name=${fullName}&background=random`;
+      // };
 
-      const urlToFile = async (profileImage, filename = "profile.jpg") => {
-        const res = await fetch(profileImage);
-        const blob = await res.blob();
-        return new File([blob], filename, { type: blob.type });
-      };
-      const imageFile = await urlToFile(profileImage);
+      // const profileImage = generateAvatarURL(response.data.firstName, response.data.lastName);
+      // console.log("Generated Profile Image URL:", profileImage);
+
+      // const urlToFile = async (profileImage, filename = "profile.jpg") => {
+      //   const res = await fetch(profileImage);
+      //   const blob = await res.blob();
+      //   return new File([blob], filename, { type: blob.type });
+      // };
+      // const imageFile = await urlToFile(profileImage);
 
       // const profileObj = { username: "abdulwajih" }; // 👈 Your profile data
-      const formData = new FormData();
-      formData.append("profile", JSON.stringify({username:response.data.username})); // as string
-      formData.append("profilePicture", imageFile); // as file
+      // const formData = new FormData();
+      // formData.append("profile", JSON.stringify({username:response.data.username})); // as string
+      // formData.append("profilePicture", imageFile); // as file
 
-      dispatch(updateProfilePhoto(navigate, formData)); 
+      // dispatch(updateProfilePhoto(navigate, formData)); 
 
-      dispatch(setGeneratedProfilePicture(profileImage));
+      // dispatch(setGeneratedProfilePicture(profileImage));
+
       // localStorage.setItem("profileImage", profileImage);
 
 
