@@ -3,7 +3,6 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 
-
 export default defineConfig({
   plugins: [
     react(),
@@ -11,8 +10,8 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         {
-          src: 'public/_redirects',
-          dest: '.' // copy into build root
+          src: '_redirects',
+          dest: '.'  // ✅ copies to dist/
         }
       ]
     })
