@@ -16,6 +16,9 @@ import { getAllUsers } from "../services/operations/searchAPI";
 import EditProfile from "../components/EditProfile";
 import OtherUserProfile from "../components/OtherUserProfile";
 
+// import FeedSkeleton from '../components/skeletons/FeedSkeleton';
+import RightSidebarSkeleton from '../components/skeletons/RightSidebarSkeleton';
+
 const Feed = () => {
   const [activeSection, setActiveSection] = useState("home");
   const [selectedUser, setSelectedUser] = useState(null);
@@ -23,23 +26,44 @@ const Feed = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState(true);
+
+  // useEffect(() => {
+  //   dispatch(getProfileDetails(navigate));
+  // }, []);
+
+  //   useEffect(() => {
+  //     const fetchUsers =  async () => {
+  //       try {
+  //         const response = await dispatch(getAllUsers());
+  //         setUserData(response);
+  //         // console.log("Fetched users:", response);
+  //       } catch (error) {
+  //         console.error("Error fetching users:", error);
+  //       }
+  //     };
+  
+  //     fetchUsers();
+  //   }, []);  
+
   useEffect(() => {
-    dispatch(getProfileDetails(navigate));
+    const fetchInitialData = async () => {
+      try {
+        await dispatch(getProfileDetails(navigate));
+        const users = await dispatch(getAllUsers());
+        setUserData(users);
+      } catch (error) {
+        console.error("Error loading feed data:", error);
+      } finally {
+        setLoading(false); // ✅ End loading after both APIs
+      }
+    };
+
+    fetchInitialData();
   }, []);
 
-    useEffect(() => {
-      const fetchUsers =  async () => {
-        try {
-          const response = await dispatch(getAllUsers());
-          setUserData(response);
-          // console.log("Fetched users:", response);
-        } catch (error) {
-          console.error("Error fetching users:", error);
-        }
-      };
-  
-      fetchUsers();
-    }, []);
+  // ✅ Show skeleton UI while loading
+  // if (loading) return <FeedSkeleton />;
 
   return (
     <div className="flex bg-gray-50">
@@ -58,7 +82,18 @@ const Feed = () => {
           {activeSection === "datailedUserProfile" && <OtherUserProfile user={selectedUser}/>}
         </div>
 
-        {["home", "following" , "search"].includes(activeSection) && <RightSidebar users={userData} setActiveSection={setActiveSection} setSelectedUser={setSelectedUser}/>}
+        {/* {["home", "following" , "search"].includes(activeSection) && <RightSidebar users={userData} setActiveSection={setActiveSection} setSelectedUser={setSelectedUser}/>} */}
+        {["home", "following", "search"].includes(activeSection) && (
+    loading ? (
+      <RightSidebarSkeleton />
+    ) : (
+      <RightSidebar
+        users={userData}
+        setActiveSection={setActiveSection}
+        setSelectedUser={setSelectedUser}
+      />
+    )
+  )}
       </div>
     </div>
   );

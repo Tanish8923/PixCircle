@@ -9,7 +9,7 @@ const {
 
 export function getAllUsers() {
   return async () => {
-    const toastId = toast.loading("Loading...");
+    // const toastId = toast.loading("Loading...");
     try {
       const token = localStorage.getItem("token")?.replace(/^"|"$/g, "");
       if (!token) throw new Error("No token found");
@@ -24,7 +24,7 @@ export function getAllUsers() {
       console.log("GET_ALL_USERS_API ERROR............", error);
       toast.error("Could not fetch users");
     } finally {
-      toast.dismiss(toastId);
+      // toast.dismiss(toastId);
     }
   };
 }

@@ -8,6 +8,8 @@ import { setGeneratedProfilePicture } from "../../slices/profileSlice"
 import { apiConnector } from "../apiConnector"
 import { endpoints } from "../apis"
 
+import Skeleton from 'react-loading-skeleton'
+
 const {
   // SENDOTP_API,
   VERIFY_SIGNUP_API,
