@@ -4,7 +4,7 @@ const initialState = {
   profileData: null,
   loading: false,
   error: null,
-  generatedProfilePicture: null, 
+  generatedProfilePicture: null,
 };
 
 const profileSlice = createSlice({
@@ -21,7 +21,7 @@ const profileSlice = createSlice({
       state.error = action.payload;
     },
     setGeneratedProfilePicture(state, action) {
-      state.generatedProfilePicture = action.payload; 
+      state.generatedProfilePicture = action.payload;
     },
     clearProfile(state) {
       state.profileData = null;
@@ -29,8 +29,27 @@ const profileSlice = createSlice({
       state.error = null;
       state.generatedProfilePicture = null;
     },
+    updateFollowingList(state, action) {
+      const { username, isFollowing } = action.payload;
+      if (!state.profileData?.data) return;
+      const followingArray = state.profileData.data.following || [];
+
+      if (isFollowing && !followingArray.includes(username)) {
+        followingArray.push(username);
+      } else if (!isFollowing) {
+        state.profileData.data.following = followingArray.filter(u => u !== username);
+      }
+    },
   },
 });
 
-export const { setProfileData, setLoading, setError,setGeneratedProfilePicture, clearProfile } = profileSlice.actions;
+export const {
+  setProfileData,
+  setLoading,
+  setError,
+  setGeneratedProfilePicture,
+  clearProfile,
+  updateFollowingList,
+} = profileSlice.actions;
+
 export default profileSlice.reducer;

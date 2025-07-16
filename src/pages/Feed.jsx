@@ -15,8 +15,6 @@ import Profile from '../components/Profile';
 import { getAllUsers } from "../services/operations/searchAPI";
 import EditProfile from "../components/EditProfile";
 import OtherUserProfile from "../components/OtherUserProfile";
-
-// import FeedSkeleton from '../components/skeletons/FeedSkeleton';
 import RightSidebarSkeleton from '../components/skeletons/RightSidebarSkeleton';
 
 const Feed = () => {
@@ -26,25 +24,7 @@ const Feed = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [loading, setLoading] = useState(true);
-
-  // useEffect(() => {
-  //   dispatch(getProfileDetails(navigate));
-  // }, []);
-
-  //   useEffect(() => {
-  //     const fetchUsers =  async () => {
-  //       try {
-  //         const response = await dispatch(getAllUsers());
-  //         setUserData(response);
-  //         // console.log("Fetched users:", response);
-  //       } catch (error) {
-  //         console.error("Error fetching users:", error);
-  //       }
-  //     };
-  
-  //     fetchUsers();
-  //   }, []);  
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -62,8 +42,6 @@ const Feed = () => {
     fetchInitialData();
   }, []);
 
-  // ✅ Show skeleton UI while loading
-  // if (loading) return <FeedSkeleton />;
 
   return (
     <div className="flex bg-gray-50">
@@ -82,18 +60,17 @@ const Feed = () => {
           {activeSection === "datailedUserProfile" && <OtherUserProfile user={selectedUser}/>}
         </div>
 
-        {/* {["home", "following" , "search"].includes(activeSection) && <RightSidebar users={userData} setActiveSection={setActiveSection} setSelectedUser={setSelectedUser}/>} */}
         {["home", "following", "search"].includes(activeSection) && (
-    loading ? (
-      <RightSidebarSkeleton />
-    ) : (
-      <RightSidebar
-        users={userData}
-        setActiveSection={setActiveSection}
-        setSelectedUser={setSelectedUser}
-      />
-    )
-  )}
+          loading ? (
+            <RightSidebarSkeleton />
+          ) : (
+            <RightSidebar
+              users={userData}
+              setActiveSection={setActiveSection}
+              setSelectedUser={setSelectedUser}
+            />
+          )
+        )}
       </div>
     </div>
   );

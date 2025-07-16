@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import ImagePost from './ImagePost';
-import { feedImageRecommend } from '../services/operations/imageAPI'; // make sure this exists
+import { feedImageRecommend } from '../services/operations/imageAPI'; 
 import { useSelector, useDispatch } from 'react-redux';
-import {getFollowing} from '../services/operations/followAPI'; // make sure this exists
+import {getFollowing} from '../services/operations/followAPI'; 
+import ImagePostSkeleton from './skeletons/ImagePostSkeleton';
+
 const FollowingFeed = () => {
   const profile = useSelector((state) => state.profile.profileData);
   const dispatch = useDispatch();
@@ -10,11 +12,14 @@ const FollowingFeed = () => {
   const [posts, setPosts] = useState([]);
   const [followedUsers, setFollowedUsers] = useState([]);
 
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     if (!profile?.data?.id) return;
 
     const fetchData = async () => {
       try {
+        setIsLoading(true); 
         // Fetch recommended images
         const homeImagesData = await dispatch(feedImageRecommend(profile.data.id));
         if (homeImagesData?.data && Array.isArray(homeImagesData.data)) {
@@ -33,6 +38,8 @@ const FollowingFeed = () => {
 
       } catch (error) {
         console.error('Error in home feed fetch:', error);
+      }finally {
+        setIsLoading(false); 
       }
     };
 
@@ -41,9 +48,11 @@ const FollowingFeed = () => {
 
   return (
     <div>
-      {(!Array.isArray(posts) || posts.length === 0) ? (
-        <p className="text-center text-gray-500">No posts to display</p>
-      ) : (
+        {isLoading ? (
+          [...Array(3)].map((_, i) => <ImagePostSkeleton key={i} />)
+        ) : posts.length === 0 ? (
+          <p className="text-center text-gray-500">No posts to display</p>
+        ) : (
         posts.map((post) => (
           <ImagePost
             key={post.id}

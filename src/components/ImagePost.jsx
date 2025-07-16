@@ -8,7 +8,6 @@ const ImagePost = ({ userImage, username, postImage, followedUsers, likeCount: i
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(initialCount);
   const [following, setFollowing] = useState(false);
-  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const profile = useSelector((state) => state.profile.profileData);
   // console.log("Profile data in ImagePost component:", likedByUsernames);
@@ -29,45 +28,62 @@ const ImagePost = ({ userImage, username, postImage, followedUsers, likeCount: i
   }, [followedUsers, username]);
 
   const toggleLike = async () => {
-    try {
-      if (!userId || !postId) return;
+    
+    if (!userId || !postId) return;
   
-      if (!liked) {
+    // Optimistic update
+    const previousLiked = liked;
+    const previousCount = likeCount;
+  
+    if (!liked) {
+      setLiked(true);
+      setLikeCount(prev => prev + 1);
+    } else {
+      setLiked(false);
+      setLikeCount(prev => Math.max(0, prev - 1));
+    }
+  
+    try {
+      if (!previousLiked) {
         const res = await dispatch(likeImage(userId, postId));
-        console.log("Like response:", res); 
-        if (res?.message === "Liked successfully") {
-          setLiked(true);
-          setLikeCount(prev => prev + 1);
+        if (res?.message !== "Liked successfully") {
+          throw new Error("Like failed");
         }
       } else {
         const res = await dispatch(unlikeImage(userId, postId));
-        console.log("Unlike response:", res);
-        if (res?.message === "Unliked successfully") {
-          setLiked(false);
-          setLikeCount(prev => Math.max(0, prev - 1));
+        if (res?.message !== "Unliked successfully") {
+          throw new Error("Unlike failed");
         }
       }
     } catch (err) {
       console.error("Like/unlike error", err);
+      // Revert UI if API fails
+      setLiked(previousLiked);
+      setLikeCount(previousCount);
     }
   };
 
+
   const toggleFollow = async () => {
-    try {
-      setLoading(true);
-      if (following) {
-        await dispatch(unfollowUser(profile.data.username, username));
-        setFollowing(false);
-      } else {
-        await dispatch(followUser(profile.data.username, username));
-        setFollowing(true);
-      }
-    } catch (error) {
-      console.error("Follow/unfollow error:", error);
-    } finally {
-      setLoading(false);
+  if (!profile?.data?.username || !username) return;
+
+  const previousFollowing = following;
+  setFollowing(!previousFollowing); // Optimistic update
+
+  try {
+    const res = previousFollowing
+      ? await dispatch(unfollowUser(profile.data.username, username))
+      : await dispatch(followUser(profile.data.username, username));
+
+    if (!res.success) {
+      throw new Error("API failed");
     }
-  };
+  } catch (error) {
+    console.error("Follow/unfollow error:", error);
+    setFollowing(previousFollowing); // rollback if API fails
+  }
+};
+
 
   return (
     <div className="bg-white shadow p-4 rounded mb-6 max-w-md mx-auto">
@@ -81,19 +97,17 @@ const ImagePost = ({ userImage, username, postImage, followedUsers, likeCount: i
         <span className="font-semibold">{username}</span>
         <button
           onClick={toggleFollow}
-          disabled={loading}
           className={`ml-auto text-sm font-medium cursor-pointer ${
             following ? 'text-gray-500' : 'text-blue-500'
           }`}
         >
-          {loading ? "......." : following ? 'Following' : 'Follow'}
+          {following ? 'Following' : 'Follow'}
         </button>
       </div>
 
       {/* Image */}
       <div
         className="w-full aspect-[5/5] overflow-hidden rounded relative"
-        // onClick={toggleLike}
       >
         <img
           src={postImage}

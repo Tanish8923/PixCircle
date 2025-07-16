@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { getFollowers, getFollowing } from "../services/operations/followAPI"; // adjust path as needed
+import { getFollowers, getFollowing } from "../services/operations/followAPI"; 
+import ProfileSkeleton from "./skeletons/ProfileSkeleton";
 
 const Profile = ({setActiveSection}) => {
   const profile = useSelector((state) => state.profile.profileData);
@@ -8,15 +9,13 @@ const Profile = ({setActiveSection}) => {
   const [followersCount, setFollowersCount] = useState(0);
   const [followingCount, setFollowingCount] = useState(0);
 
+  const [loading, setLoading] = useState(true);
+
   // console.log("Profile Data generatedProfilePicture:", generatedProfilePicture);
-  // const profileImageFromStorage = localStorage.getItem("profileImage");
 
   useEffect(() => {
-    // const profileImageFromStorage = localStorage.getItem("profileImage");
-    // console.log("Profile Image from localStorage:", profileImageFromStorage);
-
-    if (profile?.data?.username) {
-      const fetchFollowData = async () => {
+    const fetchFollowData = async () => {
+      if (profile?.data?.username) {
         try {
           const followersData = await getFollowers(profile.data.username);
           const followingData = await getFollowing(profile.data.username);
@@ -25,16 +24,22 @@ const Profile = ({setActiveSection}) => {
           setFollowingCount(followingData.length || 0);
         } catch (error) {
           console.error("Error fetching followers/following:", error);
+        } finally {
+          setLoading(false); 
         }
-      };
+      }
+    };
 
+    if (profile?.data) {
       fetchFollowData();
     }
   }, [profile]);
 
-  if (!profile || !profile.data) {
-    return <div className="text-white text-center mt-10">Loading...</div>;
+
+  if (!profile || !profile.data || loading) {
+    return <ProfileSkeleton />;
   }
+  
 
   const handleEditProfile = () => {
     setActiveSection("editProfile"); // or setActiveForm(true) depending on your setup

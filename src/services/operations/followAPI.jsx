@@ -7,7 +7,6 @@ const { FOLLOW_BASE_API } = followEndpoints;
 
 export function followUser(followerUsername, followingUsername) {
   return async (dispatch) => {
-    const toastId = toast.loading("Processing...");
     try {
       const token = localStorage.getItem("token")?.replace(/^"|"$/g, "");
       if (!token) throw new Error("No token found");
@@ -18,19 +17,19 @@ export function followUser(followerUsername, followingUsername) {
         Authorization: `Bearer ${token}`,
       });
 
-      console.log("FOLLOW RESPONSE", response);
-      toast.success(`Successfully followed ${followingUsername}`);
+      // console.log("FOLLOW RESPONSE", response);
+      // toast.success(`Successfully followed ${followingUsername}`);
+      return { success: true, data: response.data };
     } catch (error) {
       console.error("FOLLOW ERROR", error);
       toast.error("Failed to follow user");
+      return { success: false };
     }
-    toast.dismiss(toastId);
   };
 }
 
 export function unfollowUser(followerUsername, followingUsername) {
   return async (dispatch) => {
-    const toastId = toast.loading("Processing...");
     try {
       const token = localStorage.getItem("token")?.replace(/^"|"$/g, "");
       if (!token) throw new Error("No token found");
@@ -42,17 +41,17 @@ export function unfollowUser(followerUsername, followingUsername) {
       });
 
       // console.log("UNFOLLOW RESPONSE", response);
-      toast.success(`Successfully unfollowed ${followingUsername}`);
+      // toast.success(`Successfully unfollowed ${followingUsername}`);
+      return { success: true, data: response.data };
     } catch (error) {
       console.error("UNFOLLOW ERROR", error);
       toast.error("Failed to unfollow user");
+      return { success: false };
     }
-    toast.dismiss(toastId);
   };
 }
 
 export async function getFollowers(userName) {
-  const toastId = toast.loading("Loading...")
   try {
     const token = localStorage.getItem("token")?.replace(/^"|"$/g, "");
     if (!token) throw new Error("No token found");
@@ -70,13 +69,9 @@ export async function getFollowers(userName) {
     console.error(error);
     throw error;
   }
-  finally {
-    toast.dismiss(toastId);
-  }
 }
 
 export async function getFollowing(userName) {
-  const toastId = toast.loading("Loading...")
   try {
     const token = localStorage.getItem("token")?.replace(/^"|"$/g, "");
     if (!token) throw new Error("No token found");
@@ -93,8 +88,5 @@ export async function getFollowing(userName) {
     toast.error("Failed to fetch following users");
     console.error(error);
     throw error;
-  }
-  finally {
-    toast.dismiss(toastId);
   }
 }

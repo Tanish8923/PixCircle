@@ -5,7 +5,7 @@ import { followUser } from '../services/operations/followAPI';
 const RightSidebar = ({ users: initialUsers , setActiveSection , setSelectedUser }) => {
   // console.log("Initial users in RightSidebar:", initialUsers);
   const [showAll, setShowAll] = useState(false);
-  const [loadingUserId, setLoadingUserId] = useState(null); // for per-user loading state
+  // const [loadingUserId, setLoadingUserId] = useState(null); // for per-user loading state
   const [userList, setUserList] = useState([]); // local copy of suggested users
   // console.log("User list in RightSidebar:", userList);
   const profile = useSelector((state) => state.profile.profileData);
@@ -20,20 +20,29 @@ const RightSidebar = ({ users: initialUsers , setActiveSection , setSelectedUser
   const visibleUsers = showAll ? userList : userList?.slice(0, 2);
 
   const handleFollow = async (username, id) => {
+    if (!profile?.data?.username) return;
+  
+    // Save the previous list for rollback
+    const previousList = [...userList];
+  
+    // Optimistic update: remove the user immediately
+    const updatedList = userList.filter((user) => user.id !== id);
+    setUserList(updatedList);
+  
     try {
-      setLoadingUserId(id);
-      await dispatch(followUser(profile.data.username, username));
-
-      // Remove the followed user from the suggestion list
-      const updatedList = userList.filter((user) => user.id !== id);
-      setUserList(updatedList);
+      const res = await dispatch(followUser(profile.data.username, username));
+      
+      // If API fails, rollback
+      if (!res?.success) {
+        throw new Error("Follow failed");
+      }
     } catch (error) {
       console.error("Follow error:", error);
-    } finally {
-      setLoadingUserId(null);
+      // Rollback to previous state
+      setUserList(previousList);
     }
   };
-
+  
   const openProfile = (user) => {
     setSelectedUser(user); 
     setActiveSection("datailedUserProfile");
@@ -63,10 +72,9 @@ const RightSidebar = ({ users: initialUsers , setActiveSection , setSelectedUser
             </div>
             <button
               onClick={() => handleFollow(user.username, user.id)}
-              disabled={loadingUserId === user.id}
               className="text-sm font-semibold text-blue-500 cursor-pointer"
             >
-              {loadingUserId === user.id ? "..." : "Follow"}
+              Follow
             </button>
           </div>
         ))}
