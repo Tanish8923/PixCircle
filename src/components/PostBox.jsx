@@ -9,11 +9,9 @@ const PostBox = ({setActiveSection}) => {
   const [imageLoaded, setImageLoaded] = useState(false);
 
   const profilePictureUrl = useSelector((state) => state.profile.profileData?.data?.profilePictureUrl);
-  const generatedProfilePicture = useSelector((state) => state.profile.generatedProfilePicture);
-  const imageUrl = profilePictureUrl || generatedProfilePicture;
+  const imageUrl = profilePictureUrl;
 
   const handleProfileClick = () => {
-    // console.log("Profile clicked");
     setActiveSection("profile");
   };
 

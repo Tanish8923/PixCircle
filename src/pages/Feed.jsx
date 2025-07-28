@@ -1,10 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-
-import { useNavigate } from "react-router-dom";
-import { getProfileDetails } from "../services/operations/profileAPI";
-
+import { setSuggestedUsers } from "../slices/suggestedUsersSlice";
 import Sidebar from '../components/Sidebar';
 import PostBox from '../components/PostBox';
 import RightSidebar from '../components/RightSidebar ';
@@ -20,27 +17,25 @@ import RightSidebarSkeleton from '../components/skeletons/RightSidebarSkeleton';
 const Feed = () => {
   const [activeSection, setActiveSection] = useState("home");
   const [selectedUser, setSelectedUser] = useState(null);
-  const [userData, setUserData] = useState([]);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-
   const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        await dispatch(getProfileDetails(navigate));
+        setLoading(true);
         const users = await dispatch(getAllUsers());
-        setUserData(users);
+        // console.log("Fetched Users:", users);
+        dispatch(setSuggestedUsers(users));
       } catch (error) {
         console.error("Error loading feed data:", error);
       } finally {
-        setLoading(false); // ✅ End loading after both APIs
+        setLoading(false);
       }
     };
 
     fetchInitialData();
-  }, []);
+  }, [activeSection]);
 
 
   return (
@@ -65,7 +60,6 @@ const Feed = () => {
             <RightSidebarSkeleton />
           ) : (
             <RightSidebar
-              users={userData}
               setActiveSection={setActiveSection}
               setSelectedUser={setSelectedUser}
             />

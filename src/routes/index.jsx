@@ -7,7 +7,6 @@ import PrivateRoute from '../pages/auth/PrivateRoute.jsx';
 export default function AppRoutes() {
   return (
     <Routes>
-        {/* <Route path="/" element={<AuthLayout/>} /> */}
         <Route
           path="/"
           element={
@@ -16,8 +15,12 @@ export default function AppRoutes() {
             </PrivateRoute>
           }
         />
-        <Route path="/login" element={<AuthLayout/>} />
-        {/* <Route path="/feed" element={<Feed/>} /> */}
+        <Route 
+          path="/login" 
+          element={
+            <AuthLayout/>
+            }
+          />
         <Route
           path="/feed"
           element={

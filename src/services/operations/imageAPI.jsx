@@ -2,12 +2,18 @@
 import { toast } from "react-hot-toast"
 import { apiConnector } from "../apiConnector"
 import { imageEndpoints } from "../apis"
+import { profileEndpoints } from "../apis"
+import { setProfileData } from "../../slices/profileSlice"
 
 const {
   IMAGE_UPLOAD_API,
   HOME_IMAGES_RECOMMEND_API,
   FEED_IMAGES_RECOMMEND_API
 } = imageEndpoints
+
+const {
+  USER_DETAILS_API,
+} = profileEndpoints
 
 export function uploadImage(tag , image , userId) {
   return async (dispatch) => {
@@ -24,8 +30,15 @@ export function uploadImage(tag , image , userId) {
           userId: userId,
         })
       
-    console.log("IMAGE_UPLOAD_API RESPONSE............", response)
-    toast.success("Image Uploaded Successfully")
+      // console.log("IMAGE_UPLOAD_API RESPONSE............", response)
+      const updatedProfile = await apiConnector("GET", USER_DETAILS_API, {}, {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },)
+      // console.log("GET_USER_DETAILS API RESPONSE............", updatedProfile)
+    
+      dispatch(setProfileData(updatedProfile));
+      toast.success("Image Uploaded Successfully")
 
     } catch (error) {
         console.log("IMAGE_UPLOAD_API ERROR............", error)

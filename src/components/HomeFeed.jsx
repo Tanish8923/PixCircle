@@ -1,19 +1,16 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import ImagePost from './ImagePost';
 import { homeImageRecommend } from '../services/operations/imageAPI';
 import { useSelector, useDispatch } from 'react-redux';
 import {getFollowing} from '../services/operations/followAPI';
 import ImagePostSkeleton from './skeletons/ImagePostSkeleton';
+import { setFollowedUsers } from '../slices/followedUsersSlice';
+
 const HomeFeed = () => {
   const profile = useSelector((state) => state.profile.profileData);
   const dispatch = useDispatch();
-
   const [posts, setPosts] = useState([]);
-  const [followedUsers, setFollowedUsers] = useState([]);
-
   const [isLoading, setIsLoading] = useState(true);
-
 
   useEffect(() => {
     if (!profile?.data?.id) return;
@@ -34,10 +31,8 @@ const HomeFeed = () => {
         // Fetch followed users
         const followData = await getFollowing(profile.data.username); // returns the API array you shared
         if (Array.isArray(followData)) {
-          setFollowedUsers(followData);
-        } else {
-          setFollowedUsers([]);
-        }
+          dispatch(setFollowedUsers(followData));
+        } 
 
       } catch (error) {
         console.error('Error in home feed fetch:', error);
@@ -47,7 +42,7 @@ const HomeFeed = () => {
     };
 
     fetchData();
-  }, [profile]);
+  }, [dispatch , profile?.data?.id, profile?.data?.username]);
 
   return (
     <div>
@@ -63,7 +58,6 @@ const HomeFeed = () => {
               username={post.username}
               userImage={post.profilePictureUrl}
               postImage={post.imageUrl}
-              followedUsers={followedUsers}
               likeCount={post.likeCount}
               postId={post.id}
               likedByUsernames={post.likedByUsernames}

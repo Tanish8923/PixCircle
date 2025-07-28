@@ -52,9 +52,9 @@ const PostModal = ({ onClose }) => {
       toast.error("Please select an image and tag");
       return;
     }
-    console.log("Selected Preferences:", selectedPrefs);
-    console.log("Image File:", imageFile);
-    console.log("User ID:", userId);
+    // console.log("Selected Preferences:", selectedPrefs);
+    // console.log("Image File:", imageFile);
+    // console.log("User ID:", userId);
     dispatch(uploadImage(selectedPrefs, imageFile , userId));
     onClose();
   };

@@ -6,6 +6,8 @@ const Search = ({ setActiveSection, setSelectedUser }) => {
   const [query, setQuery] = useState("");
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searched, setSearched] = useState(false);
+
 
   const dispatch = useDispatch();
 
@@ -13,6 +15,7 @@ const Search = ({ setActiveSection, setSelectedUser }) => {
     if (e.key === "Enter" && query.trim()) {
       e.preventDefault();
       setLoading(true);
+      setSearched(true);
       const response = await dispatch(searchByUsername(query.trim()));
       setUsers(response || []);
       setLoading(false);
@@ -37,7 +40,7 @@ const Search = ({ setActiveSection, setSelectedUser }) => {
       <p className="text-sm text-gray-500 mt-1 text-center">"Press Enter to search"</p>
 
       {loading ? (
-        <p className="mt-4 text-gray-600">Searching...</p>
+        <p className="mt-4 text-gray-600 text-center" >Searching...</p>
       ) : users.length > 0 ? (
         <ul className="mt-4 space-y-3">
           {users.map((user, index) => (
@@ -61,7 +64,7 @@ const Search = ({ setActiveSection, setSelectedUser }) => {
           ))}
         </ul>
       ) : (
-        query && <p className="mt-4 text-gray-600">No users found.</p>
+        searched && <p className="mt-4 text-gray-600">No users found.</p>
       )}
     </div>
   );

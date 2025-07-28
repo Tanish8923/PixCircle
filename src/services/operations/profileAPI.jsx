@@ -1,5 +1,4 @@
 import { toast } from "react-hot-toast"
-
 import { setProfileData } from "../../slices/profileSlice"
 import { apiConnector } from "../apiConnector"
 import { profileEndpoints } from "../apis"
@@ -11,7 +10,6 @@ const {
 
 export function getProfileDetails(navigate) {
   return async (dispatch) => {
-    // const toastId = toast.loading("Loading...")
     try {
       const token = localStorage.getItem("token")?.replace(/^"|"$/g, ""); // removes quotes if present
       if (!token) throw new Error("No token found");
@@ -19,7 +17,7 @@ export function getProfileDetails(navigate) {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`,
       },)
-      // console.log("GET_USER_DETAILS API RESPONSE............", response)
+      console.log("GET_USER_DETAILS API RESPONSE............", response)
 
       dispatch(setProfileData(response));
 
@@ -28,13 +26,11 @@ export function getProfileDetails(navigate) {
       console.log("GET_USER_DETAILS API ERROR............", error)
       toast.error("Could Not Get User Details")
     }
-    // toast.dismiss(toastId)
   }
 }
 
 export function updateProfilePhoto(navigate , formData) {
   return async (dispatch) => {
-    // const toastId = toast.loading("Loading...")
     try {
       const token = localStorage.getItem("token")?.replace(/^"|"$/g, ""); // removes quotes if present
       if (!token) throw new Error("No token found");
@@ -43,8 +39,6 @@ export function updateProfilePhoto(navigate , formData) {
         "Authorization": `Bearer ${token}`,
       },)
       console.log("UPDATED_USER_DETAILS API RESPONSE............", response)
-
-    //   const data = await response.json();
       dispatch(setProfileData(response));
 
     } catch (error) {
@@ -52,7 +46,6 @@ export function updateProfilePhoto(navigate , formData) {
       console.log("GET_USER_DETAILS API ERROR............", error)
       toast.error("Could Not Update User Details")
     }
-    // toast.dismiss(toastId)
   }
 }
 
